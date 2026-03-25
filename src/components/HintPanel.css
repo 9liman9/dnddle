@@ -1,0 +1,190 @@
+.hint-panel {
+  margin: 0 0 24px;
+  width: 100%;
+}
+
+/* ── Text hint cards ── */
+.hint-panel__hints {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.hint-panel__hint-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold-dim);
+  border-radius: 0 10px 10px 0;
+  padding: 16px 24px;
+  text-align: left;
+}
+
+.hint-panel__hint-card--locked {
+  text-align: center;
+  border-left-color: var(--border);
+  opacity: 0.4;
+}
+
+.hint-panel__hint-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.hint-panel__hint-text {
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ── Art frame ── */
+.hint-frame {
+  border: 2px solid var(--border-light);
+  border-radius: 12px;
+  padding: 6px;
+  background: var(--bg-surface);
+}
+
+.hint-inner {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px;
+  background: var(--bg-page);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.hint-inner--solved {
+  padding: 16px;
+  min-height: 300px;
+}
+
+.hint-locked {
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.hint-locked__icon { font-size: 40px; }
+.hint-locked__text { line-height: 1.4; }
+
+/* ── Splash art ── */
+.hint-panel__splash {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  background: var(--bg-page);
+}
+
+.hint-panel__splash-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  transition: filter 0.5s ease;
+}
+
+.hint-panel__image--full {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.hint-panel__label {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hint-panel__name {
+  margin-top: 14px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--gold-bright);
+  letter-spacing: 1px;
+}
+
+.hint-panel__source {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--text-dim);
+}
+
+/* ── Reveal card (shown on solve) ── */
+.reveal-card {
+  margin-top: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.reveal-card__stats {
+  padding: 16px 20px;
+}
+
+.reveal-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.reveal-card__row:last-child {
+  border-bottom: none;
+}
+
+.reveal-card__label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.reveal-card__value {
+  color: var(--text);
+  font-size: 16px;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+.reveal-card__lore {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.reveal-card__lore p {
+  color: var(--text-dim);
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.hint-panel--solved .hint-frame {
+  border-color: var(--match-border);
+  box-shadow: 0 0 40px rgba(63, 163, 68, 0.08);
+}

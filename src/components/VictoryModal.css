@@ -1,0 +1,215 @@
+.hero-modal {
+  background: var(--bg-elevated);
+  border-radius: 16px;
+  max-width: 520px;
+  width: 94%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.hero-modal--victory {
+  border: 2px solid var(--match-border);
+  box-shadow: 0 0 60px rgba(63, 163, 68, 0.15);
+}
+
+.hero-modal--defeat {
+  border: 2px solid #8b3030;
+  box-shadow: 0 0 60px rgba(139, 48, 48, 0.15);
+}
+
+.hero-modal__close {
+  position: absolute;
+  top: 16px; right: 20px;
+  background: none; border: none;
+  color: var(--text-dim);
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+.hero-modal__close:hover { color: var(--text); }
+
+/* Banner */
+.hero-modal__banner {
+  padding: 28px 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero-modal__banner--victory {
+  background: linear-gradient(180deg, rgba(42, 110, 46, 0.3) 0%, transparent 100%);
+}
+
+.hero-modal__banner--defeat {
+  background: linear-gradient(180deg, rgba(139, 48, 48, 0.25) 0%, transparent 100%);
+}
+
+.hero-modal__banner-text {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--gold-bright);
+  letter-spacing: 2px;
+}
+
+.hero-modal__banner-sub {
+  font-size: 16px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* Art */
+.hero-modal__art {
+  width: 100%;
+  max-height: 360px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+}
+
+.hero-modal__img {
+  width: 100%;
+  height: auto;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+/* Name & type line */
+.hero-modal__name {
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--gold-bright);
+  text-align: center;
+  padding: 20px 24px 4px;
+  letter-spacing: 1px;
+}
+
+.hero-modal__type-line {
+  text-align: center;
+  font-size: 17px;
+  color: var(--text-dim);
+  font-style: italic;
+  text-transform: capitalize;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  margin: 0 24px;
+}
+
+/* Stat block */
+.hero-modal__stats {
+  padding: 12px 24px;
+}
+
+.hero-modal__stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-modal__stat-row:last-child { border-bottom: none; }
+
+.hero-modal__stat-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+  margin-right: 16px;
+}
+
+.hero-modal__stat-value {
+  color: var(--text);
+  font-size: 16px;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+/* Lore */
+.hero-modal__lore {
+  margin: 0 24px;
+  padding: 16px 20px;
+  background: var(--bg-surface);
+  border-radius: 8px;
+  border-left: 3px solid var(--gold-dim);
+}
+
+.hero-modal__lore p {
+  color: var(--text-dim);
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* Share section */
+.hero-modal__share-section {
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.hero-modal__grid {
+  background: var(--bg-page);
+  border-radius: 10px;
+  padding: 14px;
+  font-family: monospace;
+  font-size: 16px;
+  color: white;
+  white-space: pre-line;
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+
+.hero-modal__share-btn {
+  font-family: var(--font-display);
+  padding: 12px 36px;
+  background: var(--gold-dim);
+  border: none;
+  border-radius: 10px;
+  color: var(--bg-page);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: background 0.2s;
+}
+.hero-modal__share-btn:hover { background: var(--gold); }
+
+/* Action buttons */
+.hero-modal__actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px 24px;
+}
+
+.hero-modal__action-btn {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 15px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--match-bg);
+  border: 1px solid var(--match-border);
+  color: var(--match-text);
+}
+
+.hero-modal__action-btn:hover {
+  background: #347a38;
+}
+
+.hero-modal__action-btn--close {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.hero-modal__action-btn--close:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}

@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+:root {
+  /* Core palette — D&D Beyond inspired */
+  --bg-page: #1c1e21;
+  --bg-surface: #242527;
+  --bg-elevated: #2c2e31;
+  --bg-input: #1a1c1f;
+
+  /* Accent — warm gold */
+  --gold: #c8a951;
+  --gold-bright: #e8d48b;
+  --gold-dim: #8a7535;
+
+  /* Text */
+  --text: #e8e6e1;
+  --text-dim: #9e9a92;
+  --text-muted: #5e5a52;
+
+  /* Borders */
+  --border: #3a3830;
+  --border-light: #4a4840;
+
+  /* Feedback */
+  --match-bg: #2a6e2e;
+  --match-border: #3fa344;
+  --match-text: #b5f0b5;
+
+  --partial-bg: #7a6218;
+  --partial-border: #b89a2a;
+  --partial-text: #f0d870;
+
+  --wrong-bg: #2a2925;
+  --wrong-border: #3a3830;
+  --wrong-text: #6a665e;
+
+  /* Arrows */
+  --arrow-up: #4ade80;
+  --arrow-down: #f87171;
+
+  /* Fonts */
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Crimson Text', Georgia, serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  background: var(--bg-page);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle background — single faded creature, not overwhelming */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; right: -300px; bottom: 0;
+  width: 900px;
+  background:
+    url('https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/bestiary/MM/Beholder.webp')
+    center / contain no-repeat;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: -300px; bottom: 0;
+  width: 900px;
+  background:
+    url('https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/bestiary/MM/Adult%20Red%20Dragon.webp')
+    center / contain no-repeat;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root { position: relative; z-index: 1; }
+
+/* ── App container ── */
+.app {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+/* ── Two-column game layout ── */
+.game-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.game-layout__left {
+  position: sticky;
+  top: 20px;
+  width: 400px;
+  flex-shrink: 0;
+}
+
+.game-layout__right {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .game-layout {
+    flex-direction: column;
+  }
+  .game-layout__left {
+    position: static;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+/* ── Gold top accent line ── */
+.app::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-bottom: 0;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(6px);
+}
+
+/* ── Ornament ── */
+.ornament {
+  text-align: center;
+  color: var(--border);
+  font-size: 18px;
+  letter-spacing: 10px;
+  padding: 32px 0;
+  user-select: none;
+}
+
+/* ── Mode bar ── */
+.mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.mode-bar__label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.mode-bar__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.mode-bar__btn {
+  font-family: var(--font-display);
+  font-size: 15px;
+  padding: 12px 28px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-bar__btn:hover {
+  background: var(--border);
+  color: var(--gold-bright);
+  border-color: var(--gold-dim);
+}
+
+.mode-bar__btn--giveup {
+  opacity: 0.6;
+}
+
+.mode-bar__btn--giveup:hover {
+  opacity: 1;
+  border-color: var(--arrow-down);
+  color: var(--arrow-down);
+}
+
+.mode-bar__btn--play {
+  background: var(--match-bg);
+  border-color: var(--match-border);
+  color: var(--match-text);
+}
+
+.mode-bar__btn--play:hover {
+  background: #347a38;
+}
+
+/* ── Game over ── */
+.game-over {
+  text-align: center;
+  padding: 28px;
+  margin: 24px 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  font-size: 22px;
+}
+
+.game-over strong {
+  color: var(--gold-bright);
+  font-family: var(--font-display);
+}
+
+/* ── Loading / Error ── */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 24px;
+}
+
+.error {
+  text-align: center;
+  padding: 60px;
+  color: #f87171;
+  font-size: 20px;
+}

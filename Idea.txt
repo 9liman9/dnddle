@@ -1,0 +1,47 @@
+Technical Implementation Plan: D&D Wordle Project
+
+1. Architectural Foundation: Decoupled Data Management
+
+To maintain high availability and allow for content updates without application redeployment, a decoupled architecture is required. The game data must reside in a standalone repository hosted on Netlify, independent of the React frontend.
+
+* Netlify Configuration: The data repository must include a netlify.toml file to handle routing and bypass Cross-Origin Resource Sharing (CORS) restrictions. The following configuration is mandatory:
+* Dual-Fetch Resilience Strategy: The application must implement a fallback mechanism. The useEffect hook will attempt to fetch from the remote Netlify URL. In the event of a network failure or a 404, the application must catch the error and default to a local import.
+  * Forbid the use of json-server in production.
+  * Required Logic:
+
+2. Game 1 Implementation: Monster-dle (Property Matching)
+
+Monster-dle requires a strict schema for attribute comparison. Data must be sourced from dnd5eapi.co/api/2014/monsters/ for SRD content and TheGiddyLimit/homebrew (specifically the creature/ directory) for expanded content.
+
+* CR Precision and Normalization: For logical sorting and "Higher/Lower" feedback, fractional Challenge Ratings must be converted to precise decimals. Rounding to two decimal places is forbidden for 1/8.
+  * 1/8 = 0.125
+  * 1/4 = 0.25
+  * 1/2 = 0.5
+* Attribute Mapping Logic: | Property | Comparison Type | Logic | | :--- | :--- | :--- | | Size | Ordinal | Tiny < Small < Medium < Large < Huge < Gargantuan | | Alignment | Categorical | Green (Exact), Yellow (Partial: e.g., Lawful Good vs Lawful Neutral), Gray (None) | | CR | Numeric | Precise decimal comparison (Higher/Lower/Match) | | Type | Categorical | Green (Match), Gray (Mismatch) | | Biome | Categorical | Matches based on environment array (e.g., "Underdark", "Forest") |
+
+3. Game 2 Implementation: Spell/Item-dle (Multi-Word Mechanics)
+
+To handle titles like "Acid Arrow," the system must utilize the "Split Array" logic. The solution is stored as a contiguous string (e.g., solutionWithoutSpaces: "acidarrow") with a corresponding integer array (e.g., split: [4]) indicating the index after which a space occurs.
+
+* Dynamic Grid and Keying: The Row component must render a staggered grid. To prevent React reconciliation errors and key warnings, use the following React.Fragment structure:
+* CSS Animation Constraints: Static animations are forbidden. You must apply a staggered flip effect using nth-child selectors with a calculated animation-delay of (index * 0.1s) or (index * 0.2s). The grid infrastructure must support up to 13 characters to accommodate longer D&D titles.
+
+4. Social & Competitive Features
+
+* The 'Bragging' Mechanic: Implement a generateShareString function. This function iterates through the formattedGuess history, mapping state to emoji constants (🟩, 🟨, ⬛). The function must reference the split array to inject \n or spaces into the emoji block to mirror the visual layout of the user’s solved puzzle.
+* Global Leaderboard: Implement a Supabase backend to track daily performance.
+  * Primary Sort: Number of Tries (Lower is better).
+  * Tiebreaker: Time to Solve (Seconds).
+* Persistence: Use localStorage to track "Daily Streaks" and "Total Wins" locally.
+
+5. UX and Puzzle Design Philosophy
+
+* Insight-Based Design: Per MIT Puzzle Design principles, riddles must cycle through four specific insight types: Visual (shape-based), Logic (property deduction), Numbers (stat-heavy), and Language (etymology/puns). Move beyond dry property matching to provide "witty" or "surprising" logical hooks.
+* Predictive Search Constraints: To maintain difficulty and prevent database "scraping" via the search bar, the UI must limit predictive suggestions to 2 items. Search input must be sanitized to prevent "wasteful" guesses that do not exist in the database.
+* Asset Management: Dynamic image sourcing is required. Assets must be pulled from the homebrew-img repository using the specific raw GitHub URL format: https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/img/[Source_Name]/[Asset_Name].webp Note: [Source_Name] must be the unique "json" source name identified in the homebrew metadata.
+
+6. Risks and Security Mitigations
+
+* Anti-Blocking (Cloudflare Strategy): To prevent triggering Cloudflare Ray ID blocks (often caused by malformed data or SQL-like strings in user input), the system must sanitize all search queries before processing.
+* Rate Limiting: Implement strict rate-limiting for leaderboard submissions (one per 24 hours per IP) to avoid security service triggers.
+* Mirroring Requirement: High-traffic environments (e.g., 5e.tools) are prone to security challenges. The implementation must use cached or mirrored JSON files to prevent game-breaking downtime if the primary data source triggers a "security service" block.
