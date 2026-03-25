@@ -5,8 +5,8 @@ import { SearchBar } from './components/SearchBar'
 import { GuessGrid } from './components/GuessGrid'
 import { HintPanel } from './components/HintPanel'
 import { ArtworkMode } from './components/ArtworkMode'
-import { StatBlockMode } from './components/StatBlockMode'
-import { LoreMode } from './components/LoreMode'
+import { SpelldleMode } from './components/SpelldleMode'
+import { EmojiMode } from './components/EmojiMode'
 import { VictoryModal } from './components/VictoryModal'
 import { StatsModal } from './components/StatsModal'
 import { HelpModal } from './components/HelpModal'
@@ -25,26 +25,27 @@ function App() {
     dailyMonster, monsters, dailyNumber, dateString, recordWin, isRandom,
   )
 
-  // Non-classic mode hooks
+  // Non-classic monster mode hooks
   const artworkGame = useNameGuess('artwork', dailyMonster, monsters, dateString, isRandom)
-  const statBlockGame = useNameGuess('stat-block', dailyMonster, monsters, dateString, isRandom)
-  const loreGame = useNameGuess('lore', dailyMonster, monsters, dateString, isRandom)
+  const emojiGame = useNameGuess('emoji', dailyMonster, monsters, dateString, isRandom)
 
-  // Get current game state based on mode
+  // Get current game state based on mode (spelldle manages its own state internally)
   const currentGame = mode === 'classic' ? classicGame
     : mode === 'artwork' ? artworkGame
-    : mode === 'stat-block' ? statBlockGame
-    : loreGame
+    : mode === 'emoji' ? emojiGame
+    : null // spelldle handles its own state
 
-  const { solved, gameOver, giveUp } = currentGame
+  const solved = currentGame?.solved ?? false
+  const gameOver = currentGame?.gameOver ?? false
+  const giveUp = currentGame?.giveUp ?? (() => {})
 
   const [showStats, setShowStats] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
   const [showVictory, setShowVictory] = useState(false)
   const [victoryDismissed, setVictoryDismissed] = useState(false)
 
-  // Show hero modal on solve or give up
-  if (gameOver && !showVictory && !victoryDismissed && currentGame.guesses.length > 0) {
+  // Show hero modal on solve or give up (not for spelldle — it handles its own)
+  if (currentGame && gameOver && !showVictory && !victoryDismissed && currentGame.guesses.length > 0) {
     setTimeout(() => setShowVictory(true), solved ? 800 : 300)
     setVictoryDismissed(true)
   }
@@ -53,21 +54,19 @@ function App() {
     pickRandom()
     classicGame.reset()
     artworkGame.reset()
-    statBlockGame.reset()
-    loreGame.reset()
+    emojiGame.reset()
     setShowVictory(false)
     setVictoryDismissed(false)
-  }, [pickRandom, classicGame, artworkGame, statBlockGame, loreGame])
+  }, [pickRandom, classicGame, artworkGame, emojiGame])
 
   const handleBackToDaily = useCallback(() => {
     backToDaily()
     classicGame.reset()
     artworkGame.reset()
-    statBlockGame.reset()
-    loreGame.reset()
+    emojiGame.reset()
     setShowVictory(false)
     setVictoryDismissed(false)
-  }, [backToDaily, classicGame, artworkGame, statBlockGame, loreGame])
+  }, [backToDaily, classicGame, artworkGame, emojiGame])
 
   const handleModeChange = useCallback((newMode: GameMode) => {
     setMode(newMode)
@@ -80,7 +79,7 @@ function App() {
     if (!isRandom) recordLoss(dateString)
   }, [giveUp, isRandom, recordLoss, dateString])
 
-  if (loading) {
+  if (loading && mode !== 'spelldle') {
     return (
       <div className="app">
         <div className="loading">Loading the bestiary...</div>
@@ -88,7 +87,7 @@ function App() {
     )
   }
 
-  if (error) {
+  if (error && mode !== 'spelldle') {
     return (
       <div className="app">
         <div className="error">{error}</div>
@@ -107,41 +106,43 @@ function App() {
         onHelpClick={() => setShowHelp(true)}
       />
 
-      {/* Mode bar */}
-      <div className="mode-bar">
-        <span className="mode-bar__label">
-          {isRandom ? '🎲 Random Mode' : `📅 Daily #${dailyNumber}`}
-        </span>
-        <div className="mode-bar__actions">
-          {!isRandom && (
-            <button className="mode-bar__btn" onClick={handleRandomGame}>
-              🎲 Random
-            </button>
-          )}
-          {isRandom && (
-            <>
+      {/* Mode bar — not shown for spelldle (it manages its own) */}
+      {mode !== 'spelldle' && (
+        <div className="mode-bar">
+          <span className="mode-bar__label">
+            {isRandom ? '🎲 Random Mode' : `📅 Daily #${dailyNumber}`}
+          </span>
+          <div className="mode-bar__actions">
+            {!isRandom && (
               <button className="mode-bar__btn" onClick={handleRandomGame}>
-                🎲 New Random
+                🎲 Random
               </button>
-              <button className="mode-bar__btn mode-bar__btn--daily" onClick={handleBackToDaily}>
-                📅 Daily
+            )}
+            {isRandom && (
+              <>
+                <button className="mode-bar__btn" onClick={handleRandomGame}>
+                  🎲 New Random
+                </button>
+                <button className="mode-bar__btn mode-bar__btn--daily" onClick={handleBackToDaily}>
+                  📅 Daily
+                </button>
+              </>
+            )}
+            {currentGame && !gameOver && currentGame.guesses.length >= 1 && (
+              <button className="mode-bar__btn mode-bar__btn--giveup" onClick={handleGiveUp}>
+                🏳 Give Up
               </button>
-            </>
-          )}
-          {!gameOver && currentGame.guesses.length >= 1 && (
-            <button className="mode-bar__btn mode-bar__btn--giveup" onClick={handleGiveUp}>
-              🏳 Give Up
-            </button>
-          )}
-          {gameOver && (
-            <button className="mode-bar__btn mode-bar__btn--play" onClick={handleRandomGame}>
-              ⚔ Play Again
-            </button>
-          )}
+            )}
+            {currentGame && gameOver && (
+              <button className="mode-bar__btn mode-bar__btn--play" onClick={handleRandomGame}>
+                ⚔ Play Again
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Game content based on mode */}
+      {/* Classic mode */}
       {mode === 'classic' && dailyMonster && (
         <div className="game-layout">
           <aside className="game-layout__left">
@@ -181,6 +182,7 @@ function App() {
         </div>
       )}
 
+      {/* Artwork mode */}
       {mode === 'artwork' && dailyMonster && (
         <ArtworkMode
           monster={dailyMonster}
@@ -193,38 +195,39 @@ function App() {
         />
       )}
 
-      {mode === 'stat-block' && dailyMonster && (
-        <StatBlockMode
-          monster={dailyMonster}
-          monsters={monsters}
-          guesses={statBlockGame.guesses}
-          guessedIds={statBlockGame.guessedIds}
-          solved={statBlockGame.solved}
-          gameOver={statBlockGame.gameOver}
-          onGuess={statBlockGame.submitGuess}
+      {/* Spell-dle mode */}
+      {mode === 'spelldle' && (
+        <SpelldleMode
+          dateString={dateString}
+          isRandom={isRandom}
+          onPickRandom={handleRandomGame}
         />
       )}
 
-      {mode === 'lore' && dailyMonster && (
-        <LoreMode
+      {/* Emoji mode */}
+      {mode === 'emoji' && dailyMonster && (
+        <EmojiMode
           monster={dailyMonster}
           monsters={monsters}
-          guesses={loreGame.guesses}
-          guessedIds={loreGame.guessedIds}
-          solved={loreGame.solved}
-          gameOver={loreGame.gameOver}
-          onGuess={loreGame.submitGuess}
+          guesses={emojiGame.guesses}
+          guessedIds={emojiGame.guessedIds}
+          solved={emojiGame.solved}
+          gameOver={emojiGame.gameOver}
+          onGuess={emojiGame.submitGuess}
         />
       )}
 
       <div className="ornament">— ✦ ◆ ✦ —</div>
 
-      {showVictory && dailyMonster && (
+      {/* Victory modal — for monster modes only */}
+      {showVictory && dailyMonster && currentGame && (
         <VictoryModal
           monster={dailyMonster}
           guesses={mode === 'classic' ? classicGame.guesses : []}
+          guessCount={currentGame.guesses.length}
           dailyNumber={dailyNumber}
           solved={solved}
+          mode={mode}
           onClose={() => setShowVictory(false)}
           onPlayAgain={() => { setShowVictory(false); handleRandomGame(); }}
         />

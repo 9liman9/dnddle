@@ -53,6 +53,14 @@
   letter-spacing: 2px;
 }
 
+.hero-modal__banner-mode {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
 .hero-modal__banner-sub {
   font-size: 16px;
   color: var(--text-dim);

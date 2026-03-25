@@ -28,8 +28,11 @@ export function useDailyMonster(mode: GameMode) {
     loadMonsters()
       .then(monsters => {
         const today = new Date();
-        const index = getDailyMonsterIndex(monsters.length, today, mode);
-        const dailyMonster = monsters[index];
+
+        let pool = monsters;
+
+        const index = getDailyMonsterIndex(pool.length, today, mode);
+        const dailyMonster = pool[index];
         const dailyNumber = getDailyNumber(today);
         const dateString = getDateString(today);
 
@@ -55,16 +58,7 @@ export function useDailyMonster(mode: GameMode) {
   const pickRandom = useCallback(() => {
     if (state.monsters.length === 0) return;
 
-    // For artwork mode, prefer monsters with artwork
-    // For lore mode, prefer monsters with lore
     let pool = state.monsters;
-    if (mode === 'artwork') {
-      const artPool = pool.filter(m => m.artworkUrl);
-      if (artPool.length > 50) pool = artPool;
-    } else if (mode === 'lore') {
-      const lorePool = pool.filter(m => m.lore);
-      if (lorePool.length > 50) pool = lorePool;
-    }
 
     const idx = Math.floor(Math.random() * pool.length);
     setState(prev => ({

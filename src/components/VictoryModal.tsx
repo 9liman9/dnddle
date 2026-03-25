@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import type { Monster, GuessFeedback } from '../types';
+import type { Monster, GuessFeedback, GameMode } from '../types';
 import { generateShareString, copyToClipboard } from '../lib/share';
 import './VictoryModal.css';
 
 interface VictoryModalProps {
   monster: Monster;
   guesses: GuessFeedback[];
+  guessCount: number;
   dailyNumber: number;
   solved: boolean;
+  mode: GameMode;
   onClose: () => void;
   onPlayAgain: () => void;
 }
@@ -29,7 +31,14 @@ function fmtCR(cr: number): string {
   return String(cr);
 }
 
-export function VictoryModal({ monster, guesses, dailyNumber, solved, onClose, onPlayAgain }: VictoryModalProps) {
+const MODE_NAMES: Record<GameMode, string> = {
+  classic: 'Classic',
+  artwork: 'Artwork',
+  spelldle: "Spell'dle",
+  emoji: 'Emoji',
+};
+
+export function VictoryModal({ monster, guesses, guessCount, dailyNumber, solved, mode, onClose, onPlayAgain }: VictoryModalProps) {
   const [copied, setCopied] = useState(false);
   const [imgError, setImgError] = useState(false);
   const imageUrl = monster.artworkUrl || monster.tokenUrl;
@@ -53,10 +62,11 @@ export function VictoryModal({ monster, guesses, dailyNumber, solved, onClose, o
           <span className="hero-modal__banner-text">
             {solved ? '⚔ Victory! ⚔' : '💀 Defeated 💀'}
           </span>
+          <span className="hero-modal__banner-mode">{MODE_NAMES[mode]} Mode</span>
           <span className="hero-modal__banner-sub">
             {solved
-              ? `Solved in ${guesses.length} ${guesses.length === 1 ? 'guess' : 'guesses'}`
-              : `The creature eluded you after ${guesses.length} ${guesses.length === 1 ? 'guess' : 'guesses'}`
+              ? `Solved in ${guessCount} ${guessCount === 1 ? 'guess' : 'guesses'}`
+              : `The creature eluded you after ${guessCount} ${guessCount === 1 ? 'guess' : 'guesses'}`
             }
           </span>
         </div>

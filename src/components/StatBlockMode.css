@@ -1,3 +1,57 @@
+/* Reveal splash — shown on solve/give-up */
+.statblock-mode__reveal {
+  text-align: center;
+  margin-bottom: 24px;
+  animation: statblock-reveal-fade 0.6s ease;
+}
+
+.statblock-mode__reveal-art {
+  width: 100%;
+  max-height: 420px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2px solid var(--gold-dim);
+  background: var(--bg-page);
+  margin-bottom: 16px;
+}
+
+.statblock-mode__reveal-img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+.statblock-mode__reveal-name {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--gold-bright);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.statblock-mode__reveal-meta {
+  font-size: 16px;
+  color: var(--text-dim);
+  font-style: italic;
+  text-transform: capitalize;
+}
+
+@keyframes statblock-reveal-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stat block card */
 .statblock {
   background: var(--bg-surface);
   border: 2px solid var(--gold-dim);
@@ -24,6 +78,11 @@
   font-style: italic;
   text-transform: capitalize;
   margin-top: 4px;
+}
+
+.statblock__meta--hidden {
+  color: var(--text-muted);
+  font-size: 13px;
 }
 
 .statblock__divider {
@@ -118,8 +177,19 @@
   font-size: 15px;
 }
 
+.statblock__locked-inline {
+  padding: 4px 0;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 13px;
+}
+
 @media (max-width: 600px) {
   .statblock__abilities {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .statblock-mode__reveal-name {
+    font-size: 26px;
   }
 }

@@ -11,7 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "fetch-data": "npx tsx scripts/fetch-data.ts",
-    "process-data": "npx tsx scripts/process-data.ts"
+    "process-data": "npx tsx scripts/process-data.ts",
+    "fetch-spells": "npx tsx scripts/fetch-spells.ts",
+    "process-spells": "npx tsx scripts/process-spells.ts"
   },
   "dependencies": {
     "react": "^19.2.4",

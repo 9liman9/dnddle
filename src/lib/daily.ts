@@ -24,6 +24,7 @@ const MODE_SEEDS: Record<string, number> = {
   artwork: 337,
   'stat-block': 561,
   lore: 789,
+  spelldle: 999,
 };
 
 export function getDailyMonsterIndex(totalMonsters: number, date?: Date, mode = 'classic'): number {

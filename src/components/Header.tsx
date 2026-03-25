@@ -14,8 +14,8 @@ interface HeaderProps {
 const MODES: { id: GameMode; label: string }[] = [
   { id: 'classic', label: 'Classic' },
   { id: 'artwork', label: 'Artwork' },
-  { id: 'stat-block', label: 'Stat Block' },
-  { id: 'lore', label: 'Lore' },
+  { id: 'spelldle', label: "Spell'dle" },
+  { id: 'emoji', label: 'Emoji' },
 ];
 
 export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, onHelpClick }: HeaderProps) {
@@ -24,7 +24,7 @@ export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, on
       <div className="header__top-row">
         <h1 className="header__title">
           <img src="/dnd-logo.svg" alt="D&D" className="header__logo" />
-          <span className="header__dle">dle</span>
+          <span className="header__dle">'dle</span>
         </h1>
         <Countdown />
       </div>

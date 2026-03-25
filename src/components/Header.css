@@ -97,3 +97,23 @@
 }
 
 .stat-btn:hover { color: var(--gold); }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .header { padding: 24px 0 20px; margin-bottom: 16px; }
+  .header__top-row { flex-direction: column; gap: 12px; }
+  .header__logo { height: 48px; }
+  .header__dle { font-size: 42px; }
+  .header__subtitle { font-size: 16px; }
+  .header__modes { flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .mode-tab { font-size: 13px; padding: 8px 16px; }
+  .header__stats { gap: 16px; font-size: 15px; margin-top: 12px; }
+  .stat-btn { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  .header__logo { height: 36px; }
+  .header__dle { font-size: 32px; }
+  .header__subtitle { font-size: 14px; }
+  .mode-tab { font-size: 11px; padding: 6px 12px; }
+}

@@ -282,3 +282,56 @@ body::after {
   line-height: 1.6;
   font-style: italic;
 }
+
+/* ══════════════════════════════════════════════ */
+/* ══ MOBILE RESPONSIVE                       ══ */
+/* ══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* Hide background art on mobile */
+  body::before, body::after { display: none; }
+
+  .app { padding: 0 12px 40px; }
+  .app::before { display: none; }
+
+  /* Mode bar stacks */
+  .mode-bar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+  .mode-bar__actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .mode-bar__btn {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+  .mode-bar__label { font-size: 16px; }
+
+  /* Two-column becomes single column on mobile */
+  .game-layout {
+    flex-direction: column;
+  }
+  .game-layout__left {
+    position: static;
+    width: 100%;
+  }
+
+  /* Ornament */
+  .ornament { font-size: 14px; letter-spacing: 6px; padding: 16px 0; }
+
+  /* Game over */
+  .game-over { font-size: 18px; padding: 20px; }
+
+  /* Hint cards */
+  .hint-cards__card { padding: 12px 16px; }
+  .hint-cards__text { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  .app { padding: 0 8px 30px; }
+  .mode-bar__btn { font-size: 12px; padding: 8px 12px; }
+}

@@ -42,7 +42,7 @@ export interface Monster {
   actions?: string[];
 }
 
-export type GameMode = 'classic' | 'artwork' | 'stat-block' | 'lore';
+export type GameMode = 'classic' | 'artwork' | 'spelldle' | 'emoji';
 
 export interface NameGuess {
   name: string;

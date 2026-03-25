@@ -1,3 +1,91 @@
+/* Reveal splash — shown on solve/give-up */
+.lore-mode__reveal-splash {
+  text-align: center;
+  margin-bottom: 24px;
+  animation: lore-reveal-fade 0.6s ease;
+}
+
+.lore-mode__reveal-art-frame {
+  width: 100%;
+  max-height: 420px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2px solid var(--gold-dim);
+  background: var(--bg-page);
+  margin-bottom: 16px;
+}
+
+.lore-mode__reveal-splash-img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+}
+
+.lore-mode__reveal-name {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--gold-bright);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.lore-mode__reveal-meta {
+  font-size: 16px;
+  color: var(--text-dim);
+  font-style: italic;
+  text-transform: capitalize;
+  margin-bottom: 16px;
+}
+
+.lore-mode__reveal-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.lore-mode__reveal-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 56px;
+}
+
+.lore-mode__reveal-stat-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lore-mode__reveal-stat-value {
+  font-size: 14px;
+  color: var(--text);
+}
+
+@keyframes lore-reveal-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lore scroll card */
 .lore-mode__card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
@@ -32,6 +120,38 @@
   font-style: italic;
 }
 
+/* Artwork hint — blurred image clue */
+.lore-mode__art-hint {
+  padding: 16px 24px;
+  text-align: center;
+}
+
+.lore-mode__art-hint-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.lore-mode__art-hint-frame {
+  max-width: 300px;
+  max-height: 300px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-page);
+}
+
+.lore-mode__art-hint-img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  transition: filter 0.6s ease;
+}
+
+/* Progressive clues */
 .lore-mode__clues {
   padding: 16px 24px;
   display: flex;
@@ -69,6 +189,29 @@
   text-transform: capitalize;
 }
 
+/* Full lore on reveal */
+.lore-mode__full-lore {
+  padding: 0 24px 24px;
+}
+
+.lore-mode__full-lore-header {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.lore-mode__full-lore-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Reveal art (legacy, kept for backwards compat) */
 .lore-mode__reveal-art {
   display: flex;
   justify-content: center;
@@ -83,4 +226,24 @@
   border-radius: 10px;
   border: 2px solid var(--border);
   object-fit: contain;
+}
+
+@media (max-width: 600px) {
+  .lore-mode__reveal-name {
+    font-size: 26px;
+  }
+
+  .lore-mode__reveal-stats {
+    gap: 6px;
+  }
+
+  .lore-mode__reveal-stat {
+    padding: 6px 8px;
+    min-width: 48px;
+  }
+
+  .lore-mode__art-hint-frame {
+    max-width: 220px;
+    max-height: 220px;
+  }
 }
