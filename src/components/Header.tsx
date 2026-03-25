@@ -1,26 +1,46 @@
+import type { GameMode } from '../types';
+import { Countdown } from './Countdown';
 import './Header.css';
 
 interface HeaderProps {
+  mode: GameMode;
+  onModeChange: (mode: GameMode) => void;
   streak: number;
   totalWins: number;
   onStatsClick: () => void;
   onHelpClick: () => void;
 }
 
-export function Header({ streak, totalWins, onStatsClick, onHelpClick }: HeaderProps) {
+const MODES: { id: GameMode; label: string }[] = [
+  { id: 'classic', label: 'Classic' },
+  { id: 'artwork', label: 'Artwork' },
+  { id: 'stat-block', label: 'Stat Block' },
+  { id: 'lore', label: 'Lore' },
+];
+
+export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, onHelpClick }: HeaderProps) {
   return (
     <header className="header">
-      <h1 className="header__title">
-        <img src="/dnd-logo.svg" alt="D&D" className="header__logo" />
-        <span className="header__dle">'dle</span>
-      </h1>
+      <div className="header__top-row">
+        <h1 className="header__title">
+          <img src="/dnd-logo.svg" alt="D&D" className="header__logo" />
+          <span className="header__dle">dle</span>
+        </h1>
+        <Countdown />
+      </div>
+
       <p className="header__subtitle">Guess the creature of the realm</p>
 
       <nav className="header__modes">
-        <button className="mode-tab mode-tab--active">Classic</button>
-        <button className="mode-tab mode-tab--disabled" disabled>Artwork</button>
-        <button className="mode-tab mode-tab--disabled" disabled>Stat Block</button>
-        <button className="mode-tab mode-tab--disabled" disabled>Lore</button>
+        {MODES.map(m => (
+          <button
+            key={m.id}
+            className={`mode-tab ${mode === m.id ? 'mode-tab--active' : ''}`}
+            onClick={() => onModeChange(m.id)}
+          >
+            {m.label}
+          </button>
+        ))}
       </nav>
 
       <div className="header__stats">

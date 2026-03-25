@@ -17,6 +17,16 @@ interface RawMonster {
   senses?: string[];
   hasToken?: boolean;
   trait?: unknown[];
+  action?: unknown[];
+  ac?: Array<number | { ac: number; from?: string[] }>;
+  hp?: { average?: number; formula?: string };
+  str?: number;
+  dex?: number;
+  con?: number;
+  int?: number;
+  wis?: number;
+  cha?: number;
+  languages?: string[];
   _copy?: unknown;
 }
 
@@ -37,6 +47,18 @@ interface ProcessedMonster {
   artworkUrl?: string;
   lore?: string;
   traits?: string[];
+  ac?: number;
+  acFrom?: string;
+  hp?: number;
+  hpFormula?: string;
+  str?: number;
+  dex?: number;
+  con?: number;
+  int?: number;
+  wis?: number;
+  cha?: number;
+  languages?: string[];
+  actions?: string[];
 }
 
 // Source abbreviation → full name
@@ -282,6 +304,30 @@ function main() {
       }
     }
 
+    // Extract action names
+    const actions: string[] = [];
+    if (raw.action && Array.isArray(raw.action)) {
+      for (const a of raw.action) {
+        if (typeof a === 'object' && a !== null && 'name' in a) {
+          actions.push(String((a as { name: string }).name));
+        }
+      }
+    }
+
+    // Parse AC
+    let ac: number | undefined;
+    let acFrom: string | undefined;
+    if (raw.ac && Array.isArray(raw.ac) && raw.ac.length > 0) {
+      const first = raw.ac[0];
+      if (typeof first === 'number') {
+        ac = first;
+      } else if (typeof first === 'object' && first !== null && 'ac' in first) {
+        ac = (first as { ac: number; from?: string[] }).ac;
+        const fromArr = (first as { from?: string[] }).from;
+        if (fromArr) acFrom = fromArr.join(', ');
+      }
+    }
+
     const monster: ProcessedMonster = {
       id: processed.length,
       name: raw.name,
@@ -299,6 +345,18 @@ function main() {
       artworkUrl,
       lore: fluffMap.get(`${raw.name}|${raw.source}`),
       traits: traits.length > 0 ? traits : undefined,
+      ac,
+      acFrom,
+      hp: raw.hp?.average,
+      hpFormula: raw.hp?.formula,
+      str: raw.str,
+      dex: raw.dex,
+      con: raw.con,
+      int: raw.int,
+      wis: raw.wis,
+      cha: raw.cha,
+      languages: raw.languages && raw.languages.length > 0 ? raw.languages : undefined,
+      actions: actions.length > 0 ? actions : undefined,
     };
 
     processed.push(monster);

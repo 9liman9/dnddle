@@ -21,7 +21,7 @@ describe('generateShareString', () => {
   it('generates header with daily number and guess count', () => {
     const guesses = makeFeedback([['match']]);
     const result = generateShareString(guesses, 42);
-    expect(result).toContain('D&Dle #42');
+    expect(result).toContain('D&Ddle #42');
     expect(result).toContain('1/∞');
   });
 

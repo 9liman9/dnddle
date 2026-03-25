@@ -27,6 +27,27 @@ export interface Monster {
   sourceFull: string;
   lore?: string;
   traits?: string[];
+  // Stat block fields
+  ac?: number;
+  acFrom?: string;
+  hp?: number;
+  hpFormula?: string;
+  str?: number;
+  dex?: number;
+  con?: number;
+  int?: number;
+  wis?: number;
+  cha?: number;
+  languages?: string[];
+  actions?: string[];
+}
+
+export type GameMode = 'classic' | 'artwork' | 'stat-block' | 'lore';
+
+export interface NameGuess {
+  name: string;
+  correct: boolean;
+  tokenUrl?: string;
 }
 
 export type FeedbackType = 'match' | 'partial' | 'wrong' | 'higher' | 'lower';

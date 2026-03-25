@@ -4,6 +4,13 @@
   margin-bottom: 32px;
 }
 
+.header__top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
 .header__title {
   display: flex;
   align-items: center;

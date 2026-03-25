@@ -1,0 +1,125 @@
+.statblock {
+  background: var(--bg-surface);
+  border: 2px solid var(--gold-dim);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.statblock__header {
+  padding: 20px 24px 12px;
+  border-bottom: 3px solid var(--gold-dim);
+}
+
+.statblock__name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gold-bright);
+  letter-spacing: 1px;
+}
+
+.statblock__meta {
+  font-size: 15px;
+  color: var(--text-dim);
+  font-style: italic;
+  text-transform: capitalize;
+  margin-top: 4px;
+}
+
+.statblock__divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  margin: 0 24px;
+}
+
+.statblock__props {
+  padding: 12px 24px;
+}
+
+.statblock__prop {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 16px;
+}
+
+.statblock__prop-label {
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.statblock__prop-value {
+  color: var(--text);
+  text-transform: capitalize;
+}
+
+.statblock__abilities {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  text-align: center;
+  padding: 16px 24px;
+  gap: 8px;
+}
+
+.statblock__ability {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statblock__ability-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.statblock__ability-value {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.statblock__section {
+  padding: 12px 24px;
+}
+
+.statblock__section-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--gold-bright);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--gold-dim);
+  padding-bottom: 4px;
+}
+
+.statblock__list {
+  list-style: none;
+  padding: 0;
+}
+
+.statblock__list li {
+  padding: 6px 0;
+  color: var(--text);
+  font-size: 15px;
+  border-bottom: 1px solid var(--border);
+}
+
+.statblock__list li:last-child {
+  border-bottom: none;
+}
+
+.statblock__locked {
+  padding: 20px 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 15px;
+}
+
+@media (max-width: 600px) {
+  .statblock__abilities {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

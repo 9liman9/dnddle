@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { Monster } from '../types';
+import type { Monster, GameMode } from '../types';
 import { loadMonsters } from '../lib/monsters';
 import { getDailyMonsterIndex, getDailyNumber, getDateString } from '../lib/daily';
 
@@ -13,7 +13,7 @@ interface DailyMonsterState {
   isRandom: boolean;
 }
 
-export function useDailyMonster() {
+export function useDailyMonster(mode: GameMode) {
   const [state, setState] = useState<DailyMonsterState>({
     monsters: [],
     dailyMonster: null,
@@ -28,7 +28,7 @@ export function useDailyMonster() {
     loadMonsters()
       .then(monsters => {
         const today = new Date();
-        const index = getDailyMonsterIndex(monsters.length, today);
+        const index = getDailyMonsterIndex(monsters.length, today, mode);
         const dailyMonster = monsters[index];
         const dailyNumber = getDailyNumber(today);
         const dateString = getDateString(today);
@@ -50,23 +50,35 @@ export function useDailyMonster() {
           error: `Failed to load monster data: ${err.message}`,
         }));
       });
-  }, []);
+  }, [mode]);
 
   const pickRandom = useCallback(() => {
     if (state.monsters.length === 0) return;
-    const idx = Math.floor(Math.random() * state.monsters.length);
+
+    // For artwork mode, prefer monsters with artwork
+    // For lore mode, prefer monsters with lore
+    let pool = state.monsters;
+    if (mode === 'artwork') {
+      const artPool = pool.filter(m => m.artworkUrl);
+      if (artPool.length > 50) pool = artPool;
+    } else if (mode === 'lore') {
+      const lorePool = pool.filter(m => m.lore);
+      if (lorePool.length > 50) pool = lorePool;
+    }
+
+    const idx = Math.floor(Math.random() * pool.length);
     setState(prev => ({
       ...prev,
-      dailyMonster: prev.monsters[idx],
+      dailyMonster: pool[idx],
       dailyNumber: 0,
       isRandom: true,
     }));
-  }, [state.monsters]);
+  }, [state.monsters, mode]);
 
   const backToDaily = useCallback(() => {
     if (state.monsters.length === 0) return;
     const today = new Date();
-    const index = getDailyMonsterIndex(state.monsters.length, today);
+    const index = getDailyMonsterIndex(state.monsters.length, today, mode);
     setState(prev => ({
       ...prev,
       dailyMonster: prev.monsters[index],
@@ -74,7 +86,7 @@ export function useDailyMonster() {
       dateString: getDateString(today),
       isRandom: false,
     }));
-  }, [state.monsters]);
+  }, [state.monsters, mode]);
 
   return { ...state, pickRandom, backToDaily };
 }

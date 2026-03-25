@@ -18,12 +18,18 @@ export function getDateString(date: Date = new Date()): string {
   return date.toISOString().split('T')[0];
 }
 
-// Seed value — change this to rotate the daily puzzle sequence
-const DAILY_SEED = 122;
+// Per-mode seeds — different monster for each mode
+const MODE_SEEDS: Record<string, number> = {
+  classic: 122,
+  artwork: 337,
+  'stat-block': 561,
+  lore: 789,
+};
 
-export function getDailyMonsterIndex(totalMonsters: number, date?: Date): number {
+export function getDailyMonsterIndex(totalMonsters: number, date?: Date, mode = 'classic'): number {
   const dateStr = getDateString(date);
-  const hash = cyrb53(dateStr, DAILY_SEED);
+  const seed = MODE_SEEDS[mode] ?? 122;
+  const hash = cyrb53(dateStr, seed);
   return hash % totalMonsters;
 }
 

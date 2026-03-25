@@ -12,7 +12,7 @@ export function generateShareString(
   guesses: GuessFeedback[],
   dailyNumber: number
 ): string {
-  const header = `D&Dle #${dailyNumber} \u2014 ${guesses.length}/\u221E`;
+  const header = `D&Ddle #${dailyNumber} \u2014 ${guesses.length}/\u221E`;
 
   const rows = guesses.map(guess => {
     const cells = guess.cells;
