@@ -16,6 +16,7 @@ import { useNameGuess } from './hooks/useNameGuess'
 import { useLocalStats } from './hooks/useLocalStats'
 import { type Difficulty, filterByDifficulty, DIFFICULTY_LABELS } from './lib/difficulty'
 import { playUISound, playMonsterSound } from './lib/sounds'
+import { TutorialPlayer } from './tutorials/TutorialPlayer'
 
 function App() {
   const [mode, setMode] = useState<GameMode>('classic')
@@ -69,6 +70,7 @@ function App() {
 
   const [showStats, setShowStats] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
+  const [showTutorial, setShowTutorial] = useState(false)
   const [showVictory, setShowVictory] = useState(false)
   const [victoryDismissed, setVictoryDismissed] = useState(false)
 
@@ -134,6 +136,7 @@ function App() {
         totalWins={stats.gamesWon}
         onStatsClick={() => setShowStats(true)}
         onHelpClick={() => setShowHelp(true)}
+        onTutorialClick={() => setShowTutorial(true)}
       />
 
       {/* Mode bar — not shown for spelldle (it manages its own) */}
@@ -289,6 +292,10 @@ function App() {
 
       {showHelp && (
         <HelpModal onClose={() => setShowHelp(false)} />
+      )}
+
+      {showTutorial && (
+        <TutorialPlayer mode={mode} onClose={() => setShowTutorial(false)} />
       )}
     </div>
   )

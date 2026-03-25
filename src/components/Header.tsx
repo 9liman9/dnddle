@@ -9,6 +9,7 @@ interface HeaderProps {
   totalWins: number;
   onStatsClick: () => void;
   onHelpClick: () => void;
+  onTutorialClick: () => void;
 }
 
 const MODES: { id: GameMode; label: string }[] = [
@@ -18,7 +19,7 @@ const MODES: { id: GameMode; label: string }[] = [
   { id: 'emoji', label: 'Emoji' },
 ];
 
-export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, onHelpClick }: HeaderProps) {
+export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, onHelpClick, onTutorialClick }: HeaderProps) {
   return (
     <header className="header">
       <div className="header__top-row">
@@ -47,6 +48,7 @@ export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, on
         {streak > 0 && <span className="stat-badge">🔥 {streak}</span>}
         {totalWins > 0 && <span className="stat-badge">🏆 {totalWins}</span>}
         <button className="stat-btn" onClick={onStatsClick}>📊 Stats</button>
+        <button className="stat-btn" onClick={onTutorialClick}>🎬 Guide</button>
         <button className="stat-btn" onClick={onHelpClick}>❓ Rules</button>
       </div>
     </header>
