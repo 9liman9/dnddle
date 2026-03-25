@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import type { GameMode } from './types'
 import { Header } from './components/Header'
 import { SearchBar } from './components/SearchBar'
@@ -14,9 +14,12 @@ import { useDailyMonster } from './hooks/useDailyMonster'
 import { useGame } from './hooks/useGame'
 import { useNameGuess } from './hooks/useNameGuess'
 import { useLocalStats } from './hooks/useLocalStats'
+import { type Difficulty, filterByDifficulty, DIFFICULTY_LABELS } from './lib/difficulty'
+import { playUISound, playMonsterSound } from './lib/sounds'
 
 function App() {
   const [mode, setMode] = useState<GameMode>('classic')
+  const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const { monsters, dailyMonster, dailyNumber, dateString, loading, error, isRandom, pickRandom, backToDaily } = useDailyMonster(mode)
   const { stats, recordWin, recordLoss } = useLocalStats()
 
@@ -39,6 +42,31 @@ function App() {
   const gameOver = currentGame?.gameOver ?? false
   const giveUp = currentGame?.giveUp ?? (() => {})
 
+  // Sound effects: track guess count to play sounds on change
+  const prevGuessCount = useRef(0)
+  useEffect(() => {
+    if (!currentGame) return
+    const count = currentGame.guesses.length
+    if (count > prevGuessCount.current) {
+      if (solved) {
+        playUISound('correct')
+        if (dailyMonster?.soundClip) {
+          setTimeout(() => playMonsterSound(dailyMonster.soundClip), 500)
+        }
+      } else {
+        playUISound('guess')
+      }
+    }
+    prevGuessCount.current = count
+  }, [currentGame?.guesses.length, solved, dailyMonster])
+
+  // Play wrong sound on give up
+  useEffect(() => {
+    if (gameOver && !solved && currentGame && currentGame.guesses.length > 0) {
+      playUISound('wrong')
+    }
+  }, [gameOver, solved])
+
   const [showStats, setShowStats] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
   const [showVictory, setShowVictory] = useState(false)
@@ -51,13 +79,15 @@ function App() {
   }
 
   const handleRandomGame = useCallback(() => {
-    pickRandom()
+    const pool = filterByDifficulty(monsters, difficulty)
+    pickRandom(pool)
     classicGame.reset()
     artworkGame.reset()
     emojiGame.reset()
     setShowVictory(false)
     setVictoryDismissed(false)
-  }, [pickRandom, classicGame, artworkGame, emojiGame])
+    prevGuessCount.current = 0
+  }, [pickRandom, monsters, difficulty, classicGame, artworkGame, emojiGame])
 
   const handleBackToDaily = useCallback(() => {
     backToDaily()
@@ -109,9 +139,25 @@ function App() {
       {/* Mode bar — not shown for spelldle (it manages its own) */}
       {mode !== 'spelldle' && (
         <div className="mode-bar">
-          <span className="mode-bar__label">
-            {isRandom ? '🎲 Random Mode' : `📅 Daily #${dailyNumber}`}
-          </span>
+          <div className="mode-bar__top">
+            <span className="mode-bar__label">
+              {isRandom ? '🎲 Random Mode' : `📅 Daily #${dailyNumber}`}
+            </span>
+            {isRandom && (
+              <div className="difficulty-selector">
+                {(['easy', 'normal', 'hard'] as Difficulty[]).map(d => (
+                  <button
+                    key={d}
+                    className={`difficulty-btn ${difficulty === d ? 'difficulty-btn--active' : ''}`}
+                    onClick={() => setDifficulty(d)}
+                    title={DIFFICULTY_LABELS[d].desc}
+                  >
+                    {DIFFICULTY_LABELS[d].label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="mode-bar__actions">
             {!isRandom && (
               <button className="mode-bar__btn" onClick={handleRandomGame}>

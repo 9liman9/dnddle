@@ -27,6 +27,7 @@ interface RawMonster {
   wis?: number;
   cha?: number;
   languages?: string[];
+  soundClip?: { type: string; path: string };
   _copy?: unknown;
 }
 
@@ -59,6 +60,7 @@ interface ProcessedMonster {
   cha?: number;
   languages?: string[];
   actions?: string[];
+  soundClip?: string;
 }
 
 // Source abbreviation → full name
@@ -357,6 +359,7 @@ function main() {
       cha: raw.cha,
       languages: raw.languages && raw.languages.length > 0 ? raw.languages : undefined,
       actions: actions.length > 0 ? actions : undefined,
+      soundClip: raw.soundClip?.type === 'internal' ? raw.soundClip.path : undefined,
     };
 
     processed.push(monster);

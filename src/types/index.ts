@@ -40,6 +40,7 @@ export interface Monster {
   cha?: number;
   languages?: string[];
   actions?: string[];
+  soundClip?: string;
 }
 
 export type GameMode = 'classic' | 'artwork' | 'spelldle' | 'emoji';

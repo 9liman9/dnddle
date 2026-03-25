@@ -55,19 +55,18 @@ export function useDailyMonster(mode: GameMode) {
       });
   }, [mode]);
 
-  const pickRandom = useCallback(() => {
-    if (state.monsters.length === 0) return;
+  const pickRandom = useCallback((pool?: Monster[]) => {
+    const candidates = pool && pool.length > 0 ? pool : state.monsters;
+    if (candidates.length === 0) return;
 
-    let pool = state.monsters;
-
-    const idx = Math.floor(Math.random() * pool.length);
+    const idx = Math.floor(Math.random() * candidates.length);
     setState(prev => ({
       ...prev,
-      dailyMonster: pool[idx],
+      dailyMonster: candidates[idx],
       dailyNumber: 0,
       isRandom: true,
     }));
-  }, [state.monsters, mode]);
+  }, [state.monsters]);
 
   const backToDaily = useCallback(() => {
     if (state.monsters.length === 0) return;
