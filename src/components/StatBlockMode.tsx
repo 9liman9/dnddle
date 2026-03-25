@@ -25,6 +25,13 @@ function formatCR(cr: number): string {
   return String(cr);
 }
 
+function redactName(text: string, name: string): string {
+  return text.replace(
+    new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
+    '█████'
+  );
+}
+
 export function StatBlockMode({ monster, monsters, guesses, guessedIds, solved, gameOver, onGuess }: StatBlockModeProps) {
   const showName = solved || gameOver;
   // Progressive reveals: more info with more guesses
@@ -159,6 +166,16 @@ export function StatBlockMode({ monster, monsters, guesses, guessedIds, solved, 
           </div>
         )}
       </div>
+
+      {/* Lore hint cards */}
+      {!showName && (guesses.length >= 5 && monster.lore) && (
+        <div className="hint-cards">
+          <div className="hint-cards__card">
+            <span className="hint-cards__label">📜 Ancient Lore</span>
+            <p className="hint-cards__text">{redactName(monster.lore, monster.name)}</p>
+          </div>
+        </div>
+      )}
 
       <SearchBar
         monsters={monsters}
