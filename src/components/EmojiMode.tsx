@@ -105,6 +105,13 @@ function generateEmojis(monster: Monster): string[][] {
   return clues;
 }
 
+function redactName(text: string, name: string): string {
+  return text.replace(
+    new RegExp(name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'),
+    '█████'
+  );
+}
+
 export function EmojiMode({ monster, monsters, guesses, guessedIds, solved, gameOver, onGuess }: EmojiModeProps) {
   const showName = solved || gameOver;
   const [imgError, setImgError] = useState(false);
@@ -128,6 +135,16 @@ export function EmojiMode({ monster, monsters, guesses, guessedIds, solved, game
             ? `${monster.size} ${monster.type}`
             : 'Each guess reveals a new emoji clue'}
         </p>
+
+        {/* Lore hint — shown from the start with name redacted */}
+        {monster.lore && !showName && (
+          <div className="hint-cards" style={{ padding: '0 24px', marginBottom: 8 }}>
+            <div className="hint-cards__card">
+              <span className="hint-cards__label">📜 Ancient Lore</span>
+              <p className="hint-cards__text">{redactName(monster.lore, monster.name)}</p>
+            </div>
+          </div>
+        )}
 
         <div className="emoji-mode__clues">
           {emojiClues.slice(0, visibleClues).map((clue, i) => (

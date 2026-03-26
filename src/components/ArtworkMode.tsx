@@ -55,10 +55,10 @@ export function ArtworkMode({ monster, monsters, guesses, guessedIds, solved, ga
   // Blur: start at 25px, decrease by 2.5px per guess, clear at ~10 guesses
   const blur = showName ? 0 : Math.max(25 - g * 2.5, 0);
 
-  // Progressive hints (delayed compared to old version)
-  const showLore = g >= 4 && monster.lore;
-  const showTraits = g >= 6 && monster.traits && monster.traits.length > 0;
-  const showSource = g >= 8;
+  // Lore shown from the start (redacted), more hints unlock later
+  const showLore = monster.lore; // Always show if available
+  const showTraits = g >= 4 && monster.traits && monster.traits.length > 0;
+  const showSource = g >= 6;
 
   // No-art fallback: progressive stat reveals instead
   const noArtShowType = g >= 1 || showName;
