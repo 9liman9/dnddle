@@ -16,11 +16,8 @@
     "process-spells": "npx tsx scripts/process-spells.ts"
   },
   "dependencies": {
-    "@remotion/cli": "^4.0.440",
-    "@remotion/player": "^4.0.440",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "remotion": "^4.0.440"
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
