@@ -18,8 +18,8 @@ export function GuessGrid({ guesses }: GuessGridProps) {
       </div>
 
       <div className="guess-grid__rows">
-        {guesses.map((guess, i) => (
-          <GuessRow key={i} guess={guess} index={i} isLatest={i === guesses.length - 1} />
+        {[...guesses].reverse().map((guess, i) => (
+          <GuessRow key={guesses.length - 1 - i} guess={guess} index={i} isLatest={i === 0} />
         ))}
       </div>
     </div>
