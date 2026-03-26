@@ -22,7 +22,6 @@ export function getDateString(date: Date = new Date()): string {
 const MODE_SEEDS: Record<string, number> = {
   classic: 122,
   artwork: 337,
-  emoji: 444,
   spelldle: 999,
 };
 

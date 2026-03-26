@@ -43,7 +43,7 @@ export interface Monster {
   soundClip?: string;
 }
 
-export type GameMode = 'classic' | 'artwork' | 'spelldle' | 'emoji';
+export type GameMode = 'classic' | 'artwork' | 'spelldle';
 
 export interface NameGuess {
   name: string;

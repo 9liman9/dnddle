@@ -31,7 +31,7 @@ export function useDailyMonster(mode: GameMode) {
 
         // For artwork/emoji, pick from monsters with lore so hint always works
         let pool = monsters;
-        if (mode === 'artwork' || mode === 'emoji') {
+        if (mode === 'artwork') {
           const lorePool = monsters.filter(m => m.lore && m.lore.length > 50);
           if (lorePool.length > 100) pool = lorePool;
         }

@@ -35,7 +35,6 @@ const MODE_NAMES: Record<GameMode, string> = {
   classic: 'Classic',
   artwork: 'Artwork',
   spelldle: "Spell'dle",
-  emoji: 'Emoji',
 };
 
 export function VictoryModal({ monster, guesses, guessCount, dailyNumber, solved, mode, onClose, onPlayAgain }: VictoryModalProps) {

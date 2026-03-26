@@ -6,7 +6,6 @@ import { GuessGrid } from './components/GuessGrid'
 import { HintPanel } from './components/HintPanel'
 import { ArtworkMode } from './components/ArtworkMode'
 import { SpelldleMode } from './components/SpelldleMode'
-import { EmojiMode } from './components/EmojiMode'
 import { VictoryModal } from './components/VictoryModal'
 import { StatsModal } from './components/StatsModal'
 import { HelpModal } from './components/HelpModal'
@@ -31,12 +30,9 @@ function App() {
 
   // Non-classic monster mode hooks
   const artworkGame = useNameGuess('artwork', dailyMonster, monsters, dateString, isRandom)
-  const emojiGame = useNameGuess('emoji', dailyMonster, monsters, dateString, isRandom)
-
   // Get current game state based on mode (spelldle manages its own state internally)
   const currentGame = mode === 'classic' ? classicGame
     : mode === 'artwork' ? artworkGame
-    : mode === 'emoji' ? emojiGame
     : null // spelldle handles its own state
 
   const solved = currentGame?.solved ?? false
@@ -85,20 +81,18 @@ function App() {
     pickRandom(pool)
     classicGame.reset()
     artworkGame.reset()
-    emojiGame.reset()
     setShowVictory(false)
     setVictoryDismissed(false)
     prevGuessCount.current = 0
-  }, [pickRandom, monsters, difficulty, classicGame, artworkGame, emojiGame])
+  }, [pickRandom, monsters, difficulty, classicGame, artworkGame])
 
   const handleBackToDaily = useCallback(() => {
     backToDaily()
     classicGame.reset()
     artworkGame.reset()
-    emojiGame.reset()
     setShowVictory(false)
     setVictoryDismissed(false)
-  }, [backToDaily, classicGame, artworkGame, emojiGame])
+  }, [backToDaily, classicGame, artworkGame])
 
   const handleModeChange = useCallback((newMode: GameMode) => {
     setMode(newMode)
@@ -254,19 +248,6 @@ function App() {
           dateString={dateString}
           isRandom={isRandom}
           onPickRandom={handleRandomGame}
-        />
-      )}
-
-      {/* Emoji mode */}
-      {mode === 'emoji' && dailyMonster && (
-        <EmojiMode
-          monster={dailyMonster}
-          monsters={monsters}
-          guesses={emojiGame.guesses}
-          guessedIds={emojiGame.guessedIds}
-          solved={emojiGame.solved}
-          gameOver={emojiGame.gameOver}
-          onGuess={emojiGame.submitGuess}
         />
       )}
 

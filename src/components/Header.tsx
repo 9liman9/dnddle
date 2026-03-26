@@ -16,7 +16,6 @@ const MODES: { id: GameMode; label: string }[] = [
   { id: 'classic', label: 'Classic' },
   { id: 'artwork', label: 'Artwork' },
   { id: 'spelldle', label: "Spell'dle" },
-  { id: 'emoji', label: 'Emoji' },
 ];
 
 export function Header({ mode, onModeChange, streak, totalWins, onStatsClick, onHelpClick, onTutorialClick }: HeaderProps) {

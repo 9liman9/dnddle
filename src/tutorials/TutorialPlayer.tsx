@@ -44,16 +44,6 @@ const TUTORIALS: Record<GameMode, { title: string; subtitle: string; steps: Tuto
       { icon: '🎯', title: 'Deduce It', description: 'Narrow down school, level, and components to find the spell.' },
     ],
   },
-  emoji: {
-    title: 'Emoji Mode',
-    subtitle: 'Decode emoji clues to find the monster',
-    steps: [
-      { icon: '📜', title: 'Read the Lore', description: 'A redacted lore passage gives your first clue about the creature.' },
-      { icon: '🧩', title: 'Emoji Clues', description: 'Rows of emojis represent the monster — size, type, biome, movement, danger.' },
-      { icon: '🔓', title: 'Guess for More', description: 'Each wrong guess reveals another row of emoji clues.' },
-      { icon: '🐉', title: 'Name the Monster', description: 'Type your guess. No D&D knowledge needed — just decode the emojis!' },
-    ],
-  },
 };
 
 export function TutorialPlayer({ mode, onClose }: { mode: GameMode; onClose: () => void }) {
