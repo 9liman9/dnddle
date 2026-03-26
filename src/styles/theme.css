@@ -200,9 +200,21 @@ body::after {
   transition: all 0.2s;
 }
 
+.difficulty-btn__count {
+  display: block;
+  font-size: 10px;
+  opacity: 0.6;
+  font-family: var(--font-body);
+  margin-top: 1px;
+}
+
 .difficulty-btn--active {
   background: var(--gold-dim);
   color: var(--bg-page);
+}
+
+.difficulty-btn--active .difficulty-btn__count {
+  opacity: 0.8;
 }
 
 .difficulty-btn:hover:not(.difficulty-btn--active) {

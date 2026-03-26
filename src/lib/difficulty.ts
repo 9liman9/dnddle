@@ -20,5 +20,9 @@ export function filterByDifficulty(monsters: Monster[], difficulty: Difficulty):
 export const DIFFICULTY_LABELS: Record<Difficulty, { label: string; desc: string }> = {
   easy: { label: 'Easy', desc: 'Monster Manual only' },
   normal: { label: 'Normal', desc: 'Core + supplements' },
-  hard: { label: 'Hard', desc: 'All 2500+ sources' },
+  hard: { label: 'Hard', desc: 'All sources' },
 };
+
+export function getDifficultyCount(monsters: Monster[], difficulty: Difficulty): number {
+  return filterByDifficulty(monsters, difficulty).length;
+}

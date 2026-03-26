@@ -14,7 +14,7 @@ import { useDailyMonster } from './hooks/useDailyMonster'
 import { useGame } from './hooks/useGame'
 import { useNameGuess } from './hooks/useNameGuess'
 import { useLocalStats } from './hooks/useLocalStats'
-import { type Difficulty, filterByDifficulty, DIFFICULTY_LABELS } from './lib/difficulty'
+import { type Difficulty, filterByDifficulty, DIFFICULTY_LABELS, getDifficultyCount } from './lib/difficulty'
 import { playUISound, playMonsterSound } from './lib/sounds'
 import { TutorialPlayer } from './tutorials/TutorialPlayer'
 
@@ -148,16 +148,20 @@ function App() {
             </span>
             {isRandom && (
               <div className="difficulty-selector">
-                {(['easy', 'normal', 'hard'] as Difficulty[]).map(d => (
-                  <button
-                    key={d}
-                    className={`difficulty-btn ${difficulty === d ? 'difficulty-btn--active' : ''}`}
-                    onClick={() => setDifficulty(d)}
-                    title={DIFFICULTY_LABELS[d].desc}
-                  >
-                    {DIFFICULTY_LABELS[d].label}
-                  </button>
-                ))}
+                {(['easy', 'normal', 'hard'] as Difficulty[]).map(d => {
+                  const count = getDifficultyCount(monsters, d);
+                  return (
+                    <button
+                      key={d}
+                      className={`difficulty-btn ${difficulty === d ? 'difficulty-btn--active' : ''}`}
+                      onClick={() => setDifficulty(d)}
+                      title={`${DIFFICULTY_LABELS[d].desc} (${count} monsters)`}
+                    >
+                      {DIFFICULTY_LABELS[d].label}
+                      <span className="difficulty-btn__count">{count}</span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
