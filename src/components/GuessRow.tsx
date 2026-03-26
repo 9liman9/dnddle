@@ -20,13 +20,13 @@ export function GuessRow({ guess, index, isLatest }: GuessRowProps) {
       <div className={`guess-row__name ${allMatch ? 'guess-row__name--match' : ''}`}>
         {monster.name}
       </div>
-      <FeedbackCell cell={cells.size} delay={0} />
-      <FeedbackCell cell={cells.type} delay={1} />
-      <FeedbackCell cell={cells.cr} delay={2} />
-      <FeedbackCell cell={cells.alignment} delay={3} />
-      <FeedbackCell cell={cells.biome} delay={4} />
-      <FeedbackCell cell={cells.movement} delay={5} />
-      <FeedbackCell cell={cells.senses} delay={6} />
+      <FeedbackCell cell={cells.size} delay={0} label="Size" />
+      <FeedbackCell cell={cells.type} delay={1} label="Type" />
+      <FeedbackCell cell={cells.cr} delay={2} label="CR" />
+      <FeedbackCell cell={cells.alignment} delay={3} label="Align" />
+      <FeedbackCell cell={cells.biome} delay={4} label="Biome" />
+      <FeedbackCell cell={cells.movement} delay={5} label="Move" />
+      <FeedbackCell cell={cells.senses} delay={6} label="Senses" />
     </div>
   );
 }

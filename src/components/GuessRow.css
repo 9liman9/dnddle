@@ -44,3 +44,27 @@
     padding: 14px 10px;
   }
 }
+
+@media (max-width: 600px) {
+  .guess-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .guess-row__name {
+    min-height: auto;
+    max-height: none;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    font-size: 18px;
+    padding: 14px 16px;
+    text-align: center;
+    justify-content: center;
+  }
+}

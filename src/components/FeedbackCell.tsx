@@ -4,6 +4,7 @@ import './FeedbackCell.css';
 interface FeedbackCellProps {
   cell: CellFeedback;
   delay: number;
+  label?: string;
 }
 
 const ARROW_MAP: Record<string, string> = {
@@ -11,7 +12,7 @@ const ARROW_MAP: Record<string, string> = {
   lower: '⬇',
 };
 
-export function FeedbackCell({ cell, delay }: FeedbackCellProps) {
+export function FeedbackCell({ cell, delay, label }: FeedbackCellProps) {
   const arrow = ARROW_MAP[cell.feedback] || '';
   return (
     <div
@@ -19,6 +20,7 @@ export function FeedbackCell({ cell, delay }: FeedbackCellProps) {
       style={{ animationDelay: `${delay * 0.1}s` }}
       title={cell.fullValue || cell.value}
     >
+      {label && <span className="feedback-cell__label">{label}</span>}
       <span className="feedback-cell__value">
         {cell.value}
       </span>

@@ -39,3 +39,9 @@
   }
   .guess-grid__col-label { font-size: 11px; }
 }
+
+@media (max-width: 600px) {
+  .guess-grid__header {
+    display: none;
+  }
+}
