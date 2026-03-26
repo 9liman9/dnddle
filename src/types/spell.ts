@@ -9,10 +9,13 @@ export interface Spell {
   castingTime: string;
   range: string;
   components: string;
+  materialText?: string;
   duration: string;
   concentration: boolean;
   ritual: boolean;
   damageType?: string;
+  description?: string;
+  artworkUrl?: string;
 }
 
 export interface SpellCellFeedback {

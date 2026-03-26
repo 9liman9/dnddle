@@ -1,3 +1,159 @@
+/* ── Spell hint panel ── */
+.spell-hint {
+  background: var(--bg-surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  transition: border-color 0.3s;
+}
+
+.spell-hint__school {
+  padding: 8px 20px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-align: center;
+  color: var(--bg-page);
+  font-weight: 700;
+  transition: background 0.3s;
+}
+
+.spell-hint__name {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gold-bright);
+  text-align: center;
+  padding: 20px 24px 4px;
+}
+
+.spell-hint__meta {
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-dim);
+  font-style: italic;
+  text-transform: capitalize;
+  padding: 0 24px 16px;
+}
+
+.spell-hint__desc {
+  margin: 0 24px 16px;
+  padding: 16px 20px;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  border-left: 3px solid var(--gold-dim);
+}
+
+.spell-hint__desc p {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+.spell-hint__material {
+  margin: 0 24px 16px;
+  padding: 12px 20px;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  border-left: 3px solid #a855f7;
+}
+
+.spell-hint__material p {
+  color: var(--text);
+  font-size: 16px;
+  font-style: italic;
+}
+
+.spell-hint__label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.spell-hint__clue {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 24px;
+}
+
+.spell-hint__clue-value {
+  font-size: 16px;
+  color: var(--text);
+  text-transform: capitalize;
+}
+
+.spell-hint__art {
+  display: flex;
+  justify-content: center;
+  padding: 16px 24px 24px;
+}
+
+.spell-hint__art-img {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  object-fit: contain;
+}
+
+.spell-hint__locked {
+  text-align: center;
+  padding: 16px 24px 20px;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 15px;
+}
+
+/* ── Spell mode bar ── */
+.spell-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.spell-mode-bar__btn {
+  font-family: var(--font-display);
+  font-size: 14px;
+  padding: 10px 24px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.spell-mode-bar__btn:hover {
+  background: var(--border);
+  color: var(--gold-bright);
+  border-color: var(--gold-dim);
+}
+
+.spell-mode-bar__btn--play {
+  background: var(--match-bg);
+  border-color: var(--match-border);
+  color: var(--match-text);
+}
+
+.spell-mode-bar__btn--giveup {
+  opacity: 0.6;
+}
+
+.spell-mode-bar__btn--giveup:hover {
+  opacity: 1;
+  border-color: #f87171;
+  color: #f87171;
+}
+
 .spelldle-mode {
   max-width: 100%;
 }

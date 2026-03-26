@@ -14,8 +14,10 @@ interface RawSpell {
   range?: { type: string; distance?: { type: string; amount?: number } };
   components?: { v?: boolean; s?: boolean; m?: unknown };
   duration?: Array<{ type: string; duration?: { type: string; amount: number }; concentration?: boolean }>;
+  entries?: unknown[];
   damageInflict?: string[];
   savingThrow?: string[];
+  hasFluffImages?: boolean;
   _copy?: unknown;
 }
 
@@ -30,10 +32,30 @@ interface ProcessedSpell {
   castingTime: string;
   range: string;
   components: string;
+  materialText?: string;
   duration: string;
   concentration: boolean;
   ritual: boolean;
   damageType?: string;
+  description?: string;
+  artworkUrl?: string;
+}
+
+const SPELL_IMG_BASE = 'https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/spells';
+
+function extractText(entries: unknown): string {
+  if (!entries) return '';
+  if (typeof entries === 'string') {
+    // Strip 5etools tags like {@damage 8d6}, {@spell fireball}, etc.
+    return entries.replace(/\{@\w+\s+([^}|]+?)(?:\|[^}]*)?\}/g, '$1');
+  }
+  if (Array.isArray(entries)) return entries.map(extractText).filter(Boolean).join(' ');
+  if (typeof entries === 'object' && entries !== null) {
+    const obj = entries as Record<string, unknown>;
+    if (obj.entries) return extractText(obj.entries);
+    if (obj.text) return String(obj.text);
+  }
+  return '';
 }
 
 const SCHOOL_MAP: Record<string, string> = {
@@ -138,6 +160,27 @@ function main() {
 
     const dur = parseDuration(raw.duration);
 
+    // Extract description (first 2 sentences)
+    const fullDesc = extractText(raw.entries);
+    let description: string | undefined;
+    if (fullDesc.length > 20) {
+      const sentences = fullDesc.match(/[^.!?]+[.!?]+/g);
+      description = sentences ? sentences.slice(0, 2).join('').trim() : fullDesc.slice(0, 250);
+    }
+
+    // Extract material component text
+    let materialText: string | undefined;
+    if (raw.components?.m) {
+      if (typeof raw.components.m === 'string') materialText = raw.components.m;
+      else if (typeof raw.components.m === 'object' && raw.components.m !== null && 'text' in (raw.components.m as Record<string, unknown>)) {
+        materialText = String((raw.components.m as Record<string, unknown>).text);
+      }
+    }
+
+    // Artwork URL
+    const encoded = encodeURIComponent(raw.name);
+    const artworkUrl = `${SPELL_IMG_BASE}/${raw.source}/${encoded}.webp`;
+
     const spell: ProcessedSpell = {
       id: processed.length,
       name: raw.name,
@@ -149,10 +192,13 @@ function main() {
       castingTime: parseCastingTime(raw.time),
       range: parseRange(raw.range),
       components: parseComponents(raw.components),
+      materialText,
       duration: dur.text,
       concentration: dur.concentration,
-      ritual: false, // Would need ritual tag from raw data
+      ritual: false,
       damageType: raw.damageInflict?.[0],
+      description,
+      artworkUrl: raw.hasFluffImages ? artworkUrl : undefined,
     };
 
     processed.push(spell);
